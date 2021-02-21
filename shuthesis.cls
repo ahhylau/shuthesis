@@ -8,7 +8,7 @@
 %% 
 %% This is a generated file.
 %% 
-%% Copyright (C) 2017-2017 by Lele Liu <ahhylau@gmail.com>
+%% Copyright (C) 2017-2021 by Lele Liu <ahhylau@gmail.com>
 %% 
 %% This file may be distributed and/or modified under the
 %% conditions of the LaTeX Project Public License, either version 1.3a
@@ -100,7 +100,6 @@
 \RequirePackage{array}
 \RequirePackage{longtable}
 \RequirePackage{makecell}
-\RequirePackage{tabu}
 \RequirePackage{booktabs}
 \RequirePackage{ulem}
 \RequirePackage[numbers,sort&compress]{natbib}
@@ -210,12 +209,15 @@
   \renewcommand{\footrulewidth}{0pt}}
 \fancypagestyle{shu@headings}{%
   \fancyhead{}
-  \fancyhead[CO]{\wuhao\kaishu\leftmark}
-  \fancyhead[CE]{\wuhao\kaishu 上海大学\shu@cdegree 学位论文}
+  \fancyhead[L]{\xiaowu 上海大学\shu@cdegree 学位论文}
   \fancyfoot{}
   \fancyfoot[C]{\wuhao\thepage}
   \renewcommand{\headrulewidth}{0.4pt}
   \renewcommand{\footrulewidth}{0pt}}
+\fancypagestyle{shu@onlyhead}{%
+  \fancyhead{}
+  \fancyhead[L]{\xiaowu 上海大学\shu@cdegree 学位论文}
+  \renewcommand{\headrulewidth}{0.4pt}}
 \ctexset{%
   space=auto,
   autoindent=true}
@@ -387,22 +389,22 @@
 \newenvironment{cabstract}{\Collect@Body\shu@@cabstract}{}
 \newcommand{\shu@@eabstract}[1]{\long\gdef\shu@eabstract{#1}}
 \newenvironment{eabstract}{\Collect@Body\shu@@eabstract}{}
-\def\shu@parse@keywords#1{
+\def\shu@parse@keywords#1#2{
   \define@key{shu}{#1}{\csname #1\endcsname{##1}}
   \expandafter\gdef\csname shu@#1\endcsname{}
   \expandafter\gdef\csname #1\endcsname##1{
     \@for\reserved@a:=##1\do{
       \expandafter\ifx\csname shu@#1\endcsname\@empty\else
         \expandafter\g@addto@macro\csname shu@#1\endcsname{%
-          \ignorespaces\csname shu@keywords@separator\endcsname}
+          \ignorespaces\csname #2\endcsname}
       \fi
       \expandafter\expandafter\expandafter\g@addto@macro%
       \expandafter\csname shu@#1\expandafter\endcsname\expandafter{\reserved@a}
      }
    }
  }
-\shu@parse@keywords{ckeywords}
-\shu@parse@keywords{ekeywords}
+\shu@parse@keywords{ckeywords}{shu@ckeywords@separator}
+\shu@parse@keywords{ekeywords}{shu@ekeywords@separator}
 \def\shusetup{\kvsetkeys{shu}}
 \def\shu@first@page{\renewcommand{\ULthickness}{1.8pt}%
  {\noindent\ifxetex\XBSong\else\bfseries\songti\fi%
@@ -410,7 +412,7 @@
  密\hphantom{空白空}级：\expandafter\ifshu@secret\shu@secret@content\else%
  \shu@secretlevel\fi\hfill 学\hphantom{空白}号：{\bfseries\shu@id}}
  \par\vskip1mm
- \noindent\uline{\hspace{105mm}}\par\vskip2mm
+ \noindent\uline{\hskip105mm}\par\vskip2mm
    \ifshu@nocolor
    \raisebox{1ex}[0pt][0pt]{
    \includegraphics[height=3cm,width=9.8cm]{shublack.pdf}}\hskip5mm
@@ -421,30 +423,35 @@
    \includegraphics[height=3.3cm,width=2.7cm]{shulogo.pdf}\fi\par\vskip5mm
    \hskip3mm{\maxsize\ifxetex\LanTingHei\else\bfseries\heiti\fi\shu@cdegree 学位论文}
  \par\vskip-1mm
- \noindent\uline{\hskip143mm}\par\vskip1mm
+ \noindent\uline{\hskip\linewidth}\par\vskip1mm
  {\zihao{-1}\bfseries
   \centerline{SHANGHAI~~UNIVERSITY}
   \centerline{\MakeUppercase{\shu@edegree}'S~~DISSERTATION}}
  \begin{center}
-   \tabulinesep=_5mm^5mm
-   \arrayrulewidth=1pt
-     \begin{tabu} to 0.9\textwidth{|X[1,c,m]|X[11,c,m]|}
-       \hline
-       \zihao{-2}\ifxetex\HanYikai\else\bfseries\kaishu\fi\makecell{题\\ 目} &
-       \erhao[1.4]\bfseries\ifxetex\LanTingHei\else\heiti\fi\tabulinesep=_1.5mm^1.5mm
-          \begin{tabu}{X[c,m]}
-            \shu@ctitle
-          \end{tabu}\\\hline
-     \end{tabu}
+  {\setlength\arrayrulewidth{1pt}
+  \begin{tabular}{|c|c|}
+    \hline
+    \begin{minipage}[c][4cm][c]{2.5em}
+      \centering%
+      \zihao{-2}\ifxetex\HanYikai\else\bfseries\kaishu\fi\makecell{题\\ 目}
+    \end{minipage}
+    &
+    \begin{minipage}[c][4cm][c]{11cm}
+      \centering%
+      \erhao[1.4]\bfseries\ifxetex\LanTingHei\else\heiti\fi
+      \shu@ctitle
+    \end{minipage}
+    \\\hline
+  \end{tabular}}
  \end{center}
-   \vfill\renewcommand{\ULthickness}{1pt}
+ \vfill\renewcommand{\ULthickness}{1pt}
  \begin{center}
   {\heiti\xiaoer[1.9]
-  \begin{tabular}{cl}
-    作\hphantom{空白}者 & \uline{\kaishu\makebox[55mm]{\shu@cauthor}}\\
-    学科专业            & \uline{\kaishu\makebox[55mm]{\shu@cmajor}}\\
-    导\hphantom{空白}师 & \uline{\kaishu\makebox[55mm]{\shu@csupervisor}}\\
-    完成日期            & \uline{\kaishu\makebox[55mm]{\shu@coverdate}}\\
+  \begin{tabular}{cc}
+    \makebox[4em][s]{作者}          & \uline{\kaishu\makebox[12em]{\shu@cauthor}}\\
+    \makebox[4em][s]{学科专业}      & \uline{\kaishu\makebox[12em]{\shu@cmajor}}\\
+    \makebox[4em][s]{导师}          & \uline{\kaishu\makebox[12em]{\shu@csupervisor}}\\
+    \makebox[4em][s]{完成日期}      & \uline{\kaishu\makebox[12em]{\shu@coverdate}}\\
   \end{tabular}}
  \end{center}
  \if@openright\cleardoublepage\else\clearpage\fi}
@@ -453,23 +460,29 @@
  \shu@first@page
  \restoregeometry}
 \newcommand{\shu@committee}{
+ \pagestyle{shu@onlyhead}
+ {\noindent 姓\hphantom{空白}名：{\shu@cauthor}\hfill 学号：{\shu@id}\\
+  论文题目：\let\\=\relax{\shu@ctitle}} \par
+ \vskip1.5cm
  \noindent\centerline{\zihao{2} 上海大学} \par
  \vskip1.5cm
  \erhao[1.5] 本论文经答辩委员会全体委员审查，
- 确认符合上海大学博士学位论文质量要求。\par
+ 确认符合上海大学\shu@cdegree 学位论文质量要求。\par
  \vskip3.9cm
  \zihao{-2} 答辩委员会签名:\par
  \vskip1cm
  主席:\par
  \vskip1cm
  委员:\par
- \vskip6cm
+ \vskip5cm
  导\hphantom{空白}师:\par
  \vskip1cm
  答辩日期:
  \if@openright\cleardoublepage\else\clearpage\fi
  }
 \newcommand{\shu@authordeclare}{%
+ {\noindent 姓\hphantom{空白}名：{\shu@cauthor}\hfill 学号：{\shu@id}\\
+  论文题目：\let\\=\relax{\shu@ctitle}} \par
  \begin{center}
  \zihao{2}\ifxetex\XBSong\else\bfseries\songti\fi 原创性声明
  \end{center}
@@ -501,11 +514,11 @@
  \begin{center}\yihao[1.5]{\bfseries{\shu@ctitle}}\end{center}
  \vskip3.5cm
  \begin{center}\xiaoer[1.8]
- \begin{tabular}{cl}
- 作\hphantom{空白}者: & \kaishu\shu@cauthor\\
- 导\hphantom{空白}师: & \kaishu\shu@csupervisor\\
- 学科专业:            & \kaishu\shu@cmajor\\
- \end{tabular}
+  \begin{tabular}{cc}
+   \makebox[4em][s]{作者}:     & \uline{\kaishu\makebox[12em]{\shu@cauthor}}\\
+   \makebox[4em][s]{导师}:     & \uline{\kaishu\makebox[12em]{\shu@csupervisor}}\\
+   \makebox[4em][s]{学科专业}: & \uline{\kaishu\makebox[12em]{\shu@cmajor}}\\
+  \end{tabular}
  \end{center}
  \vskip3.5cm
  \begin{center}
@@ -521,13 +534,13 @@
  for the \\ Degree of \shu@edegree~in \shu@edisciplines\par
  \vskip3cm
  \begin{center}\zihao{1}{\bfseries{\shu@etitle}}\end{center}
- \vskip4cm
+ \vskip3cm
  \begin{tabular}{rl}
  Candidate:  & \shu@eauthor\\
  Supervisor: & \shu@esupervisor\\
  Major:      & \shu@emajor\\
  \end{tabular}
- \vskip4cm
+ \vskip3cm
  \bfseries\shu@edepartment\\
  Shanghai University\\
  \shu@edate
@@ -546,6 +559,7 @@
   \pdfbookmark[-1]{\shu@ctitle}{ctitle}
   \normalsize
  \shu@committee
+ \normalsize
  \shu@authordeclare
  \shu@cncover
  \shu@engcover
@@ -566,7 +580,7 @@
     \pagenumbering{Roman}
   \shu@cabstract
   \vskip12bp
-  \shu@put@keywords{\heiti\shu@ckeywords@title\enskip}{\shu@ckeywords}
+  \shu@put@keywords{\heiti\shu@ckeywords@title}{\shu@ckeywords}
   \shu@chapter*[]{\eabstractname}
   \shu@eabstract
   \vskip12bp
@@ -635,6 +649,8 @@
  \shu@chapter*{#1}}{}
 \newcommand{\researchitem}[1]{%
  \vspace{32bp}{\sihao\heiti\centerline{#1}}\par\vspace{14bp}}
+\newenvironment{projects}[1][\shu@projects@title]{%
+ \shu@chapter*{#1}}{}
 \AtEndOfClass{\input{shuthesis.cfg}}
 \AtEndOfClass{\sloppy}
 \endinput
